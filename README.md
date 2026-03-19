@@ -10,4 +10,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 
 - [1-hello-world](1-hello-world/README.md)
 - [2-cli_calculator](2-cli_calculator/README.md)
+- [3-user-input-classifier](3-user-input-classifier/README.md)
 
