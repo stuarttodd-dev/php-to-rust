@@ -12,4 +12,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [2-cli_calculator](2-cli_calculator/README.md)
 - [3-user-input-classifier](3-user-input-classifier/README.md)
 - [4-laravel-collection-clone](4-laravel-collection-clone/README.md)
+- [5-basic-cart](5-basic-cart/README.md)
 
