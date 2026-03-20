@@ -17,4 +17,12 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [7-organised-tuple-exercises](7-organised-tuple-exercises/README.md)
 - [8-error-handling-capstone](8-error-handling-capstone/README.md)
 - [9-universal-media-player](9-universal-media-player/README.md)
+- [10-decorator-pattern](10-decorator-pattern/README.md)
+- [11-builder-pattern](11-builder-pattern/README.md)
+- [12-factory-pattern](12-factory-pattern/README.md)
+- [13-adapter-pattern](13-adapter-pattern/README.md)
+- [14-strategy-pattern](14-strategy-pattern/README.md)
+- [15-observer-pattern](15-observer-pattern/README.md)
+- [16-state-pattern](16-state-pattern/README.md)
+- [17-CoR-pattern](17-CoR-pattern/README.md)
 
