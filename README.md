@@ -14,4 +14,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [4-laravel-collection-clone](4-laravel-collection-clone/README.md)
 - [5-basic-cart](5-basic-cart/README.md)
 - [6-tuple-exercises](6-tuple-exercises/README.md)
+- [7-organised-tuple-exercises](7-organised-tuple-exercises/README.md)
 
