@@ -16,4 +16,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [6-tuple-exercises](6-tuple-exercises/README.md)
 - [7-organised-tuple-exercises](7-organised-tuple-exercises/README.md)
 - [8-error-handling-capstone](8-error-handling-capstone/README.md)
+- [9-universal-media-player](9-universal-media-player/README.md)
 

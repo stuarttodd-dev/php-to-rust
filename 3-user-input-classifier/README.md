@@ -1,6 +1,8 @@
 # 3 - User Input Classifier
 
-This example demonstrates how to classify optional integer input values in Rust using `Option<i32>`.
+![php-to-rust logo](../images/php-to-rust.png)
+
+This example demonstrates how to classify optional integer input values in Rust using `Option<i32>`, including pattern matching and basic statistics.
 
 ## Run
 

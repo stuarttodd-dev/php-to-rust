@@ -1,6 +1,8 @@
 # 2 - CLI Calculator
 
-This folder contains a Rust CLI calculator and a PHP comparison implementation.
+![php-to-rust logo](../images/php-to-rust.png)
+
+This folder contains a Rust CLI calculator and a PHP comparison implementation, demonstrating basic input/output and arithmetic operations in both languages.
 
 ## Rust
 

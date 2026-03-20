@@ -1,5 +1,7 @@
 # 6 - Tuple Exercises
 
+![php-to-rust logo](../images/php-to-rust.png)
+
 This example demonstrates tuple-based operations in Rust:
 - 2D/3D distance calculation
 - RGB to hex conversion

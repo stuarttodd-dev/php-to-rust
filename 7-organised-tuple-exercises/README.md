@@ -1,6 +1,8 @@
 # 7 - Organised Tuple Exercises
 
-This exercise is a starter cargo project for organised tuple exercise code.
+![php-to-rust logo](../images/php-to-rust.png)
+
+This exercise is a starter cargo project for organised tuple exercise code, providing a clean template for tuple-based programming challenges.
 
 ## Run
 

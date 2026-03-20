@@ -1,6 +1,8 @@
 # 5 - Basic Cart
 
-This example implements a simple cart type with add/len/print, then demonstrates modifying items and checking out.
+![php-to-rust logo](../images/php-to-rust.png)
+
+This example implements a simple cart type with add/len/print, then demonstrates modifying items and checking out, covering basic struct methods and mutability.
 
 ## Run
 

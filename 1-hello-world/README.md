@@ -1,6 +1,8 @@
 # 1 - Hello World
 
-This example shows a simple Rust "Hello, Rust!" program.
+![php-to-rust logo](../images/php-to-rust.png)
+
+This example shows a simple Rust "Hello, Rust!" program, introducing basic Rust syntax and compilation.
 
 ## Run
 

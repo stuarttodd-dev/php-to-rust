@@ -1,6 +1,8 @@
 # 4 - Laravel Collection Clone
 
-This example builds a small Rust `MiniCollection` type with chainable methods inspired by Laravel collections (`map`, `filter`, `fold`, `for_each`).
+![php-to-rust logo](../images/php-to-rust.png)
+
+This example builds a small Rust `MiniCollection` type with chainable methods inspired by Laravel collections (`map`, `filter`, `fold`, `for_each`), demonstrating functional programming patterns.
 
 ## Run
 
