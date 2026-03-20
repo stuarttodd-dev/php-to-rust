@@ -1,7 +1,7 @@
 pub fn log_warn(msg: &str) {
-    eprintln!("[WARN] {}", msg);
+    log::warn!("{}", msg);
 }
 
 pub fn log_info(msg: &str) {
-    eprintln!("[INFO] {}", msg);
+    log::info!("{}", msg);
 }
