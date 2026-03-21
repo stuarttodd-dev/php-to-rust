@@ -1,0 +1,6 @@
+First data file for line counting.
+This file has multiple lines.
+Each line will be counted.
+We can add more content here.
+And more lines continue.
+To make it distinct from file2.
