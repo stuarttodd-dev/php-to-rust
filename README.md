@@ -29,4 +29,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [19-testing-practice](19-testing-practice/README.md)
 - [20-shared-documentviews](20-shared-documentviews/README.md)
 - [21-http-server](21-http-server/README.md)
+- [22-cmd-file-operations](22-cmd-file-operations/README.md)
 
