@@ -25,4 +25,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [15-observer-pattern](15-observer-pattern/README.md)
 - [16-state-pattern](16-state-pattern/README.md)
 - [17-CoR-pattern](17-CoR-pattern/README.md)
+- [18-functional-exercise](18-functional-exercise/README.md)
 
