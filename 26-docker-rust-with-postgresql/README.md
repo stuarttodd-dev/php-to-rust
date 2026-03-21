@@ -29,7 +29,17 @@ This exercise demonstrates how to set up a complete development environment with
 cd 26-docker-rust-with-postgresql
 ```
 
-### Step 2: Start Docker Compose
+### Step 2: (Optional) Copy environment variables
+
+For local development overrides, copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+**Note:** This is optional since Docker Compose already sets the required variables in `compose.yml`. Only create `.env` if you want to override the defaults.
+
+### Step 3: Start Docker Compose
 
 Build the Rust application and start both the app and database services:
 
@@ -53,7 +63,7 @@ docker compose up -d --build
 ✔ Container 26-docker-rust-with-postgresql-app-1  Started
 ```
 
-### Step 3: Wait for the database to be ready
+### Step 4: Wait for the database to be ready
 
 The PostgreSQL database takes a moment to initialize. Wait 2-3 seconds, then check if the app is ready:
 
@@ -61,7 +71,7 @@ The PostgreSQL database takes a moment to initialize. Wait 2-3 seconds, then che
 sleep 3
 ```
 
-### Step 4: Test the Health Endpoint
+### Step 5: Test the Health Endpoint
 
 Verify the API is running and connected to the database:
 
@@ -74,7 +84,7 @@ curl http://localhost:8080/health
 {"status":"OK","service":"docker-rust-with-postgresql"}
 ```
 
-### Step 5: Test the Root Endpoint
+### Step 6: Test the Root Endpoint
 
 Get information about available endpoints:
 
@@ -93,7 +103,7 @@ curl http://localhost:8080/
 }
 ```
 
-### Step 6: View Application Logs
+### Step 7: View Application Logs
 
 Check that the database connected successfully:
 
@@ -107,7 +117,7 @@ app-1  | [2026-03-21T21:40:22Z INFO  docker_rust_with_postgresql] Database conne
 app-1  | [2026-03-21T21:40:22Z INFO  docker_rust_with_postgresql] Server listening on 0.0.0.0:8080
 ```
 
-### Step 7: View Database Logs (optional)
+### Step 8: View Database Logs (optional)
 
 Verify PostgreSQL started correctly:
 
@@ -115,7 +125,7 @@ Verify PostgreSQL started correctly:
 docker compose logs db
 ```
 
-### Step 8: Stop the Stack
+### Step 9: Stop the Stack
 
 When you're done testing, stop the containers:
 
