@@ -21,16 +21,7 @@ Binary will be at `target/release/cmd-file-operations`.
 
 ## Testing
 
-### 1. Create a Test File
-
-```bash
-cd /Users/stuart/PhpstormProjects/php-to-rust/22-cmd-file-operations
-echo "Hello, world!
-This is a test file.
-Rust file operations rock!" > test.txt
-```
-
-### 2. Run with the Test File
+### 1. Run with the Included Test File
 
 ```bash
 cargo run -- test.txt
@@ -42,13 +33,13 @@ Expected output:
 Lines: 3  Words: 7  Chars: 59  Bytes: 59
 ```
 
-### 3. Test with Any Existing File
+### 2. Test with Any Existing File
 
 ```bash
 cargo run -- /path/to/any/file.txt
 ```
 
-### 4. Test Error Handling (Missing Argument)
+### 3. Test Error Handling (Missing Argument)
 
 ```bash
 cargo run
