@@ -27,4 +27,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [17-CoR-pattern](17-CoR-pattern/README.md)
 - [18-functional-exercise](18-functional-exercise/README.md)
 - [19-testing-practice](19-testing-practice/README.md)
+- [20-shared-documentviews](20-shared-documentviews/README.md)
 
