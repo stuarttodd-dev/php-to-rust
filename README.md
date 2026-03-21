@@ -33,4 +33,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [23-merge-line-counts](23-merge-line-counts/README.md)
 - [24-concurrent-word-file-counter](24-concurrent-word-file-counter/README.md)
 - [25-docker-setup](25-docker-setup/README.md)
+- [26-docker-rust-with-postgresql](26-docker-rust-with-postgresql/README.md)
 
