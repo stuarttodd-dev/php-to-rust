@@ -1,0 +1,19 @@
+Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
+
+Rust is syntactically similar to C++, but can guarantee memory safety by using a borrow checker to validate references.
+
+Rust achieves memory safety without garbage collection, and reference counting is optional.
+
+The Rust programming language is designed for performance and safety, especially safe concurrency.
+
+Concurrency in Rust is safe by default, thanks to the ownership system and borrowing rules.
+
+Rust's ownership model ensures that data races are prevented at compile time.
+
+Programming in Rust feels empowering, and the compiler helps catch errors early.
+
+Rust has a rich type system that helps prevent bugs.
+
+The Rust community is welcoming and helpful.
+
+Learning Rust can be challenging but rewarding.

@@ -31,4 +31,5 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [21-http-server](21-http-server/README.md)
 - [22-cmd-file-operations](22-cmd-file-operations/README.md)
 - [23-merge-line-counts](23-merge-line-counts/README.md)
+- [24-concurrent-word-file-counter](24-concurrent-word-file-counter/README.md)
 
