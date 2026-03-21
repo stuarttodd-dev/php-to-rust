@@ -155,6 +155,26 @@ The app reads `DATABASE_URL` environment variable set in `compose.yml`:
 postgres://user:secret@db:5432/mydb
 ```
 
+## Connect from command line
+
+### Option 1: Use docker compose exec (recommended)
+
+```bash
+docker compose exec db psql -U user -d mydb
+```
+
+Run a single command directly:
+
+```bash
+docker compose exec db psql -U user -d mydb -c "SELECT NOW();"
+```
+
+### Option 2: Use local psql client with published port
+
+```bash
+PGPASSWORD=secret psql -h localhost -p 5432 -U user -d mydb
+```
+
 ## Troubleshooting
 
 ### "Port 8080 already in use"
