@@ -4,8 +4,10 @@ COPY Cargo.toml Cargo.lock ./
 RUN mkdir src && echo "fn main() {}" > src/main.rs
 RUN cargo build --release
 COPY src ./src
-RUN touch src/main.rs && cargo build --release
-# Binary filename always matches [package].name — keep Dockerfile in sync automatically.
+COPY migrations ./migrations
+# Touch lib + bin so dependency graph always rebuilds after COPY src (not only main).
+RUN touch src/lib.rs src/main.rs && cargo build --release
+# Binary name always matches [package].name in Cargo.toml (e.g. shop-api, not exercise-26 names).
 RUN PKG=$(grep -m1 '^name = ' Cargo.toml | cut -d'"' -f2) && \
     test -f "target/release/$PKG" && \
     cp "target/release/$PKG" /app/server

@@ -1,0 +1,6 @@
+target/
+.env
+.dockerignore
+compose.yml
+Cargo.lock
+**/*.log

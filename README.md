@@ -34,4 +34,4 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [24-concurrent-word-file-counter](24-concurrent-word-file-counter/README.md)
 - [25-docker-setup](25-docker-setup/README.md)
 - [26-docker-rust-with-postgresql](26-docker-rust-with-postgresql/README.md)
-
+- [27-shop-api](27-shop-api/README.md) — Axum + SQLx + PostgreSQL (catalog, baskets, validation, JSON resources). Includes every route, `curl` examples, and how to run Docker Compose.
