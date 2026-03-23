@@ -7,8 +7,8 @@ Shop API: Axum + SQLx + PostgreSQL (catalog products and basket lines). Use Dock
 ## Prerequisites
 
 - Docker Desktop (or Docker Engine + Compose plugin), **or** a local PostgreSQL 15+ and Rust toolchain
-- `curl` (examples below use `http://localhost:8080`)
-- Ports **8080** (API) and **5432** (Postgres, if published) available
+- `curl` (examples below use `http://localhost:8090`)
+- Ports **8090** (API) and **5432** (Postgres, if published) available
 
 ## Project layout
 
@@ -17,7 +17,7 @@ Shop API: Axum + SQLx + PostgreSQL (catalog products and basket lines). Use Dock
 | `Dockerfile` | Multi-stage build; runtime image runs `./server` (package binary `shop-api`) |
 | `compose.yml` | `app` + `db` services, `DATABASE_URL`, healthcheck, `pgdata` volume |
 | `migrations/` | SQLx embedded migrations (products, `cost_cents`, basket lines) |
-| `src/main.rs` | Loads `.env`, connects, runs migrations, serves on `0.0.0.0:8080` |
+| `src/main.rs` | Loads `.env`, connects, runs migrations, serves on `0.0.0.0:8090` |
 | `src/bin/seed.rs` | Idempotent catalog seed (products 1–2) |
 | `src/api/` | Routes, request DTOs, `ProductResponse`, validation |
 | `src/domain/` | Domain types (`Product`, `Basket`, …) |
@@ -33,7 +33,7 @@ cd 27-shop-api
 docker compose up -d --build
 ```
 
-This builds the API image, starts Postgres, waits for `db` to be healthy, then starts `app` on port **8080**. Data persists in the `pgdata` volume until you run `docker compose down -v`.
+This builds the API image, starts Postgres, waits for `db` to be healthy, then starts `app` on port **8090**. Data persists in the `pgdata` volume until you run `docker compose down -v`.
 
 After the first start (or an empty database), load sample products from your **host** (port `5432` is published):
 
@@ -79,7 +79,7 @@ Migrations run on startup; then seed if needed: `cargo run --bin seed`.
 
 ## API base URL
 
-Use **`http://localhost:8080`** (or `http://127.0.0.1:8080`) when the app is bound to 8080.
+Use **`http://localhost:8090`** (or `http://127.0.0.1:8090`) when the app is bound to 8090.
 
 ---
 
@@ -92,7 +92,7 @@ Success bodies use JSON unless noted. Errors are typically `{"error":"…"}`; va
 Service metadata and a short list of routes.
 
 ```bash
-curl -s http://localhost:8080/
+curl -s http://localhost:8090/
 ```
 
 ### `GET /api/health`
@@ -100,7 +100,7 @@ curl -s http://localhost:8080/
 Liveness: pings the database.
 
 ```bash
-curl -s http://localhost:8080/api/health
+curl -s http://localhost:8090/api/health
 ```
 
 ### `GET /api/products`
@@ -108,7 +108,7 @@ curl -s http://localhost:8080/api/health
 Catalog as a JSON array of **public** product objects (`id`, `title`, `price_cents` only — no internal fields such as `cost_cents`).
 
 ```bash
-curl -s http://localhost:8080/api/products
+curl -s http://localhost:8090/api/products
 ```
 
 ### `GET /api/products/{id}`
@@ -116,7 +116,7 @@ curl -s http://localhost:8080/api/products
 Single product in the same **public** shape. `404` if missing.
 
 ```bash
-curl -s http://localhost:8080/api/products/1
+curl -s http://localhost:8090/api/products/1
 ```
 
 ### `POST /api/baskets/{basket_id}/items`
@@ -133,7 +133,7 @@ Add or merge a line (`ON CONFLICT` adds quantities). Body must be JSON:
 - Invalid JSON syntax / shape: client error (e.g. **`400`** / **`422`** depending on Axum)
 
 ```bash
-curl -s -i -X POST http://localhost:8080/api/baskets/demo/items \
+curl -s -i -X POST http://localhost:8090/api/baskets/demo/items \
   -H "Content-Type: application/json" \
   -d '{"product_id":1,"qty":2}'
 ```
@@ -145,7 +145,7 @@ Use the **same** `basket_id` when reading the basket below.
 Basket lines with titles, per-line subtotals, and `subtotal_cents`.
 
 ```bash
-curl -s http://localhost:8080/api/baskets/demo
+curl -s http://localhost:8090/api/baskets/demo
 ```
 
 ### `PATCH /api/baskets/{basket_id}/items/{product_id}`
@@ -157,7 +157,7 @@ Set quantity for one line. Body: `{"qty": <positive integer>}`.
 - **`404`** if the line does not exist  
 
 ```bash
-curl -s -i -X PATCH http://localhost:8080/api/baskets/demo/items/1 \
+curl -s -i -X PATCH http://localhost:8090/api/baskets/demo/items/1 \
   -H "Content-Type: application/json" \
   -d '{"qty":3}'
 ```
@@ -167,7 +167,7 @@ curl -s -i -X PATCH http://localhost:8080/api/baskets/demo/items/1 \
 Remove one line. **`204`** if a row was deleted, **`404`** if not found.
 
 ```bash
-curl -s -i -X DELETE http://localhost:8080/api/baskets/demo/items/1
+curl -s -i -X DELETE http://localhost:8090/api/baskets/demo/items/1
 ```
 
 ### `DELETE /api/baskets/{basket_id}`
@@ -175,7 +175,7 @@ curl -s -i -X DELETE http://localhost:8080/api/baskets/demo/items/1
 Remove all lines for that basket. **`204`** on success.
 
 ```bash
-curl -s -i -X DELETE http://localhost:8080/api/baskets/demo
+curl -s -i -X DELETE http://localhost:8090/api/baskets/demo
 ```
 
 ---
@@ -186,7 +186,7 @@ curl -s -i -X DELETE http://localhost:8080/api/baskets/demo
 |---------|--------|
 | Postgres user / password / DB | `user` / `secret` / `mydb` |
 | App `DATABASE_URL` inside Compose | `postgres://user:secret@db:5432/mydb` |
-| API port | `8080` → container `8080` |
+| API port | `8090` → container `8090` |
 | Postgres port | `5432` → host `5432` (for host tools and `cargo test` / `seed`) |
 
 ### psql via Docker
@@ -215,7 +215,7 @@ cargo test
 
 | Issue | What to try |
 |-------|-------------|
-| Port 8080 in use | Change mapping in `compose.yml` (e.g. `"8081:8080"`) or stop the other process. |
+| Port 8090 in use | Change mapping in `compose.yml` (e.g. `"8081:8090"`) or stop the other process. |
 | `404` on `/api/baskets/...` but `/api/health` works | Rebuild and recreate the **app** container so it runs a binary that includes basket routes. |
 | `PoolTimedOut` / tests cannot connect | Start `db`, use **`127.0.0.1`** in `DATABASE_URL` on the host (not hostname `db`). |
 | Empty catalog | Run `cargo run --bin seed` against the same database the app uses. |
