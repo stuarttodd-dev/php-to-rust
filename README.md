@@ -36,4 +36,6 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [26-docker-rust-with-postgresql](26-docker-rust-with-postgresql/README.md)
 - [27-shop-api](27-shop-api/README.md) — Axum + SQLx + PostgreSQL (catalog, baskets, validation, JSON resources). Includes every route, `curl` examples, and how to run Docker Compose.
 - [28-shop-ui](28-shop-ui/README.md) — Dioxus 0.7 WASM shop (catalog, product, basket) + [`dx serve`](https://dioxuslabs.com/learn/0.7/getting_started); needs [`27-shop-api`](27-shop-api/README.md) running. **Setup:** [28-shop-ui/README.md](28-shop-ui/README.md).
+- [29-inventory](29-inventory/README.md) — CLI directory inventory: `Path` / `PathBuf`, recursive walk, summary by file extension + `cargo test` for pure logic.
 - [learn/rust-for-web-development](learn/rust-for-web-development/README.md) — LMS-ready copy: **three** WASM UI options, then **one** simple front-end build lesson.
+- [learn/rust-for-systems-development](learn/rust-for-systems-development/README.md) — LMS-ready copy: paths, `PathBuf`, and related systems topics ([`PathBuf` / `Path` lesson](learn/sections/rust-for-systems-development/systems-pathbuf-and-path.md)).
