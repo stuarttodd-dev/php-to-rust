@@ -31,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     println!("Migrations completed");
     let pool = Arc::new(pool);
 
-    println!("Server listening on 0.0.0.0:8090");
+    println!("Server listening on 0.0.0.0:8090 (OPTIONS preflight + CORS)");
     let listener = TcpListener::bind("0.0.0.0:8090").await?;
     axum::serve(listener, app(pool)).await?;
 

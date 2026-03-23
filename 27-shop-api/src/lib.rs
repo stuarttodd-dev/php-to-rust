@@ -7,7 +7,7 @@ use axum::Router;
 use sqlx::PgPool;
 use std::sync::Arc;
 
-/// HTTP router: **`GET /`**, **`GET /api/health`** (DB ping), catalog + baskets.
+/// HTTP router: **`GET /`**, **`GET /api/health`** (DB ping), catalog + baskets (CORS in `api::router`).
 pub fn app(pool: Arc<PgPool>) -> Router {
     api::router(pool)
 }

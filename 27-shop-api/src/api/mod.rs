@@ -6,7 +6,7 @@ use crate::domain::Product;
 use axum::extract::{Path, State};
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
-use axum::routing::get;
+use axum::routing::{get, on, MethodFilter};
 use axum::{Json, Router};
 use dto::{AddBasketItemBody, PatchBasketItemBody};
 use resources::ProductResponse;
@@ -16,25 +16,89 @@ use std::sync::Arc;
 use axum::routing::{patch, post};
 use serde::Serialize;
 use sqlx::Row;
+use axum::http::HeaderValue;
+use tower_http::cors::{AllowHeaders, AllowMethods, AllowOrigin, CorsLayer};
 use validation::{validate_add_item, validate_patch_qty};
+
+/// Browser `fetch` from another port needs `Access-Control-Allow-Origin` to **match** the page
+/// origin (or `*`). Mirroring the `Origin` header works for any dev URL (Dioxus, Trunk, etc.).
+///
+/// Set **`CORS_ORIGINS`** (comma-separated) in Docker/Compose to restrict to known front-end URLs;
+/// if unset, any `Origin` is echoed back (local dev only).
+fn shop_cors_layer() -> CorsLayer {
+    if let Ok(raw) = std::env::var("CORS_ORIGINS") {
+        let origins: Vec<HeaderValue> = raw
+            .split(',')
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .filter_map(|s| HeaderValue::from_str(s).ok())
+            .collect();
+        if !origins.is_empty() {
+            return CorsLayer::new()
+                .allow_origin(AllowOrigin::list(origins))
+                .allow_methods(AllowMethods::any())
+                .allow_headers(AllowHeaders::any())
+                .allow_private_network(true);
+        }
+    }
+
+    CorsLayer::new()
+        .allow_origin(AllowOrigin::mirror_request())
+        .allow_methods(AllowMethods::any())
+        .allow_headers(AllowHeaders::any())
+        .allow_private_network(true)
+}
+
+/// Empty handler for CORS preflight. Same path is registered twice so Axum **merges** method slots
+/// (see [route](https://docs.rs/axum/latest/axum/struct.Router.html#method.route)); then one
+/// `Router::layer(CorsLayer)` wraps every method on that path.
+async fn cors_preflight() -> StatusCode {
+    StatusCode::NO_CONTENT
+}
 
 /// All HTTP routes on one `Router` (no `nest("/api", …)`).
 /// Nested routers can interact oddly with path matching in some Axum versions; flat routes are predictable.
 pub fn router(pool: Arc<PgPool>) -> Router {
     Router::new()
         .route("/api/health", get(health))
+        .route(
+            "/api/health",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route("/api/products", get(list_products))
+        .route(
+            "/api/products",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route("/api/products/{id}", get(get_product))
+        .route(
+            "/api/products/{id}",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route(
             "/api/baskets/{basket_id}/items/{product_id}",
             patch(patch_basket_line).delete(delete_basket_line),
         )
+        .route(
+            "/api/baskets/{basket_id}/items/{product_id}",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route("/api/baskets/{basket_id}/items", post(post_basket_item))
+        .route(
+            "/api/baskets/{basket_id}/items",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route(
             "/api/baskets/{basket_id}",
             get(get_basket).delete(clear_basket),
         )
+        .route(
+            "/api/baskets/{basket_id}",
+            on(MethodFilter::OPTIONS, cors_preflight),
+        )
         .route("/", get(root))
+        .route("/", on(MethodFilter::OPTIONS, cors_preflight))
+        .layer(shop_cors_layer())
         .with_state(pool)
 }
 

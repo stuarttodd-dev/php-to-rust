@@ -1,0 +1,129 @@
+:root {
+    --bg: #0f1419;
+    --surface: #1a2332;
+    --text: #e8eef4;
+    --muted: #8b9bb4;
+    --accent: #3d9cf5;
+    --accent-dim: #2b7bc4;
+    --border: #2a3545;
+    font-family: "Segoe UI", system-ui, sans-serif;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  
+  .site-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .site-header__inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .site-logo {
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  
+  .site-logo:hover {
+    color: var(--accent);
+  }
+  
+  .site-search {
+    flex: 1;
+    min-width: 12rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .site-search label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  
+  .site-search input {
+    flex: 1;
+    padding: 0.45rem 0.65rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+  }
+  
+  .site-search input:focus {
+    outline: 2px solid var(--accent-dim);
+    outline-offset: 1px;
+  }
+  
+  .catalog-main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 1.25rem 2.5rem;
+  }
+  
+  .catalog-main h1 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+  
+  .catalog-status {
+    color: var(--muted);
+  }
+  
+  .catalog-status--error {
+    color: #f08080;
+  }
+  
+  .product-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  
+  .product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.1rem;
+  }
+  
+  .product-card h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .product-card__price {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  

@@ -188,6 +188,7 @@ curl -s -i -X DELETE http://localhost:8090/api/baskets/demo
 | App `DATABASE_URL` inside Compose | `postgres://user:secret@db:5432/mydb` |
 | API port | `8090` → container `8090` |
 | Postgres port | `5432` → host `5432` (for host tools and `cargo test` / `seed`) |
+| CORS (WASM / another origin) | Unset: echo request `Origin`. Optional `CORS_ORIGINS` = comma-separated allowlist (set in `compose.yml` `app.environment`) |
 
 ### psql via Docker
 
