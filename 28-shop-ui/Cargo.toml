@@ -8,10 +8,11 @@ edition = "2021"
 
 [dependencies]
 dioxus = { version = "0.7.1", features = [] }
+dioxus-router = "0.7.3"
 gloo-net = "0.6.0"
+gloo-storage = "0.3.0"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = "1.0.149"
-tower-http = { version = "0.6.8", features = ["cors"] }
 
 [features]
 default = ["web"]
