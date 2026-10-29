@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS reviews (
+    id BIGSERIAL PRIMARY KEY,
+    product_id BIGINT NOT NULL,
+    rating INTEGER NOT NULL,
+    body TEXT NOT NULL
+);

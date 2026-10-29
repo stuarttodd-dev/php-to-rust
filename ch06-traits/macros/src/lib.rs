@@ -1,10 +1,10 @@
 #[macro_export]
 macro_rules! money {
     ($pounds:expr) => {
-        shop::Money($pounds * 100)
+        $crate::Money($pounds * 100)
     };
     ($pounds:expr, $pence:expr) => {
-        shop::Money($pounds * 100 + $pence)
+        $crate::Money($pounds * 100 + $pence)
     };
 }
 
@@ -15,14 +15,27 @@ macro_rules! routes {
     };
 }
 
+/// Cents as an integer. Re-exported so `$crate::Money` works from other crates
+/// after `#[macro_export]` lifts `money!` to the crate root.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct Money(pub u32);
+
+pub use Money as MoneyCents;
+
 #[cfg(test)]
 mod tests {
-    use shop::Money;
+    use super::Money;
 
     #[test]
     fn money_single_arm() {
         let mug: Money = crate::money!(10);
         assert_eq!(mug.0, 1000);
+    }
+
+    #[test]
+    fn money_two_arms() {
+        let bowl: Money = crate::money!(25, 0);
+        assert_eq!(bowl.0, 2500);
     }
 
     #[test]

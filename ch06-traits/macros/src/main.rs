@@ -1,5 +1,4 @@
-use learn_macros::{money, routes};
-use shop::Money;
+use learn_macros::{money, routes, Money};
 
 fn main() {
     let mug: Money = money!(10);
