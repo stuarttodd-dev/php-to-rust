@@ -49,7 +49,7 @@ Historical numbered folders that are no longer linked from the course live under
 
 GitHub Actions (`.github/workflows/ci.yml`) runs:
 
-1. **crates** — fmt/clippy/test for the ch12 workspace (with Postgres 16 + sqlx migrate) and `cargo test --manifest-path` for other chapter crates.
+1. **crates** — discovers every `Cargo.toml` outside `archive/` (except the ch12 workspace members and `shop-front`). Starters with a `solution/` dir must `cargo test --no-run`, then CI copies the solution and runs `cargo test` + `clippy -D warnings`. The ch12 workspace is tested as one unit after applying the shop-api solution. A root `Cargo.toml` is forbidden.
 2. **wasm** — `wasm32-unknown-unknown` builds for `shop-pricing` and `shop-front`, plus native tests for shop-pricing.
 
 The LMS repo separately runs a site build and `scripts/check-snippets.py` over lesson fences.

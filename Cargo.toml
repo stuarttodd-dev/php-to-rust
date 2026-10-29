@@ -1,6 +1,0 @@
-# Placeholder so tools that look for a root Cargo.toml find this repo.
-# Chapter crates keep their own manifests / workspaces (see ch12-building-an-api).
-# A unified workspace needs unique package names across chapters (multiple `shop` crates).
-[workspace]
-resolver = "2"
-members = []

@@ -34,40 +34,31 @@ jobs:
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      - name: Forbid root Cargo.toml
+        run: |
+          if [ -f Cargo.toml ]; then
+            echo "::error::Root Cargo.toml must not exist (nested crates treat it as a broken workspace)."
+            exit 1
+          fi
       - name: Install sqlx-cli
         run: cargo install sqlx-cli --no-default-features --features rustls,postgres --locked
       - name: Migrate shop-api
         working-directory: ch12-building-an-api/shop-api
         run: sqlx migrate run
+      - name: shop-api starter compiles, then apply solution
+        run: |
+          cargo test --no-run --manifest-path ch12-building-an-api/shop-api/Cargo.toml
+          cp ch12-building-an-api/shop-api/solution/*.rs ch12-building-an-api/shop-api/src/
       - name: fmt (ch12 workspace)
         working-directory: ch12-building-an-api
         run: cargo fmt --all -- --check
-      - name: clippy + test ch12
+      - name: clippy + test ch12 workspace
         working-directory: ch12-building-an-api
         run: |
           cargo clippy --workspace --all-targets -- -D warnings
           cargo test --workspace
-      - name: test other chapter crates
-        run: |
-          set -e
-          for manifest in \
-            ch05-error-handling/shop/Cargo.toml \
-            ch05-error-handling/derived/Cargo.toml \
-            ch06-traits/discounts/Cargo.toml \
-            ch08-testing/shop/Cargo.toml \
-            ch08-testing/find-the-bugs/Cargo.toml \
-            ch09-smart-pointers/category-tree/Cargo.toml \
-            ch10-cli/shop-cli/Cargo.toml \
-            ch11-concurrency/order-pipeline/Cargo.toml \
-            ch11-concurrency/async-depth/Cargo.toml \
-            ch04-lifetimes/lifetimes-practice/Cargo.toml \
-            ch06-traits/macros/Cargo.toml \
-            ch12-building-an-api/reviews/Cargo.toml
-          do
-            echo "::group::$manifest"
-            cargo test --manifest-path "$manifest"
-            echo "::endgroup::"
-          done
+      - name: Discover and test chapter crates
+        run: bash scripts/ci-test-crates.sh
 
   wasm:
     name: wasm
@@ -78,9 +69,18 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
+      - name: Forbid root Cargo.toml
+        run: |
+          if [ -f Cargo.toml ]; then
+            echo "::error::Root Cargo.toml must not exist (nested crates treat it as a broken workspace)."
+            exit 1
+          fi
       - name: Build shop-pricing for wasm
         run: cargo build --manifest-path ch13-wasm/shop-pricing/Cargo.toml --target wasm32-unknown-unknown
-      - name: Build shop-front for wasm
-        run: cargo build --manifest-path ch13-wasm/shop-front/Cargo.toml --target wasm32-unknown-unknown
-      - name: Native unit tests
+      - name: shop-front starter + solution for wasm
+        run: |
+          cargo build --manifest-path ch13-wasm/shop-front/Cargo.toml --target wasm32-unknown-unknown
+          cp ch13-wasm/shop-front/solution/*.rs ch13-wasm/shop-front/src/
+          cargo build --manifest-path ch13-wasm/shop-front/Cargo.toml --target wasm32-unknown-unknown
+      - name: Native unit tests (shop-pricing)
         run: cargo test --manifest-path ch13-wasm/shop-pricing/Cargo.toml
