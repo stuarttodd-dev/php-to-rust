@@ -1,19 +1,7 @@
-# 18 - Functional Exercise
+# 18 - Functional exercise (retired)
 
 ![php-to-rust logo](../images/php-to-rust.png)
 
-This exercise is a starter cargo project for functional programming challenges in Rust, such as closures, iterators, and higher-order functions.
+This folder is retired. The Closures and iterators chapter now uses the Laravel-style `Collection<T>` exercise in [`4-laravel-collection-clone`](../4-laravel-collection-clone/).
 
-## Run
-
-From this folder:
-
-```bash
-cargo run
-```
-
-Expected output:
-
-```
-Hello, world!
-```
+Use that starter and solution instead.

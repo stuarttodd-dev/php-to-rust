@@ -1,15 +1,33 @@
-# 4 - Laravel Collection Clone
+# 4 - Laravel-style collection
 
 ![php-to-rust logo](../images/php-to-rust.png)
 
-This example builds a small Rust `MiniCollection` type with chainable methods inspired by Laravel collections (`map`, `filter`, `fold`, `for_each`), demonstrating functional programming patterns.
+Companion to the Closures and iterators exercise: a generic `Collection<T>` with `map`, `filter`, `pluck`, `sum_by`, and `first_where`. Methods take `impl FnMut`. `pluck` borrows `&self`.
 
-## Run
+## Starter
 
-From this folder:
+`src/main.rs` is the starter. Bodies are `todo!`. Replace them, then:
 
 ```bash
+cargo test
 cargo run
 ```
 
-Expected output shows the calculated sum and iterated items.
+## Solution
+
+`solution/main.rs` is the finished file. Copy it over `src/main.rs` to check:
+
+```bash
+cp solution/main.rs src/main.rs
+cargo test
+cargo run
+```
+
+Expected `cargo run` output:
+
+```text
+[2, 4]
+mug
+1400
+1000
+```
