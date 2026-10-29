@@ -13,9 +13,9 @@ enum BasketError {
 }
 
 impl<T> Collection<T> {
-    fn map<U>(self, mut f: impl FnMut(T) -> U) -> Collection<U> {
+    fn map<U>(self, f: impl FnMut(T) -> U) -> Collection<U> {
         Collection {
-            items: self.items.into_iter().map(|item| f(item)).collect(),
+            items: self.items.into_iter().map(f).collect(),
         }
     }
 
@@ -27,7 +27,7 @@ impl<T> Collection<T> {
 
     fn pluck<U>(&self, mut f: impl FnMut(&T) -> U) -> Collection<U> {
         Collection {
-            items: self.items.iter().map(|item| f(item)).collect(),
+            items: self.items.iter().map(&mut f).collect(),
         }
     }
 

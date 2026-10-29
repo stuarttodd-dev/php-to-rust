@@ -13,6 +13,7 @@ This is a PHP-to-Rust course repository with side-by-side examples and small han
 - [3-user-input-classifier](3-user-input-classifier/README.md)
 - [4-laravel-collection-clone](4-laravel-collection-clone/README.md)
 - [ch04-structs-enums-modules/shop](ch04-structs-enums-modules/shop/README.md) — Shop domain from Structs, enums and modules (`Money`, `Product`, `Basket`, lib + binary).
+- [ch06-traits/discounts](ch06-traits/discounts/) — Exercise: discount rules (`PriceRule`, percent/fixed stacking; starter + `solution/lib.rs`).
 - [5-basic-cart](5-basic-cart/README.md)
 - [6-tuple-exercises](6-tuple-exercises/README.md)
 - [7-organised-tuple-exercises](7-organised-tuple-exercises/README.md)

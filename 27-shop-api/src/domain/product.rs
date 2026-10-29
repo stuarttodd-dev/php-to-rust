@@ -59,7 +59,7 @@ pub fn catalog_sample() -> Vec<Product> {
     ]
 }
 
-pub fn find_by_id<'a>(catalog: &'a [Product], id: u64) -> Option<&'a Product> {
+pub fn find_by_id(catalog: &[Product], id: u64) -> Option<&Product> {
     catalog.iter().find(|p| p.id == id)
 }
 

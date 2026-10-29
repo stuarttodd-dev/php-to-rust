@@ -200,6 +200,8 @@ async fn root() -> impl axum::response::IntoResponse {
     })))
 }
 
+// Err is the ready Axum response for invalid ids; boxing would force every handler return to match.
+#[allow(clippy::result_large_err)]
 fn normalize_basket_id(basket_id: String) -> Result<String, axum::response::Response> {
     let s = basket_id.trim().to_string();
     if s.is_empty() {

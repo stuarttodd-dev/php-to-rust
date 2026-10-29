@@ -32,13 +32,14 @@ pub fn two_step_job(log: &mut dyn CallLogger) {
     log.mark("step_b");
 }
 
+#[derive(Default)]
 pub struct RecordingLogger {
     pub marks: Vec<String>,
 }
 
 impl RecordingLogger {
     pub fn new() -> Self {
-        Self { marks: Vec::new() }
+        Self::default()
     }
 }
 
