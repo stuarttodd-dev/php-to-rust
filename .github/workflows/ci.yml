@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  SQLX_OFFLINE: "true"
+  DATABASE_URL: postgres://shop:shop@localhost:5432/shop
+
+jobs:
+  crates:
+    name: crates
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: shop
+          POSTGRES_PASSWORD: shop
+          POSTGRES_DB: shop
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U shop -d shop"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Install sqlx-cli
+        run: cargo install sqlx-cli --no-default-features --features rustls,postgres --locked
+      - name: Migrate shop-api
+        working-directory: ch12-building-an-api/shop-api
+        run: sqlx migrate run
+      - name: fmt (ch12 workspace)
+        working-directory: ch12-building-an-api
+        run: cargo fmt --all -- --check
+      - name: clippy + test ch12
+        working-directory: ch12-building-an-api
+        run: |
+          cargo clippy --workspace --all-targets -- -D warnings
+          cargo test --workspace
+      - name: test other chapter crates
+        run: |
+          set -e
+          for manifest in \
+            ch05-error-handling/shop/Cargo.toml \
+            ch05-error-handling/derived/Cargo.toml \
+            ch06-traits/discounts/Cargo.toml \
+            ch08-testing/shop/Cargo.toml \
+            ch08-testing/find-the-bugs/Cargo.toml \
+            ch09-smart-pointers/category-tree/Cargo.toml \
+            ch10-cli/shop-cli/Cargo.toml \
+            ch11-concurrency/order-pipeline/Cargo.toml \
+            ch11-concurrency/async-depth/Cargo.toml \
+            ch04-lifetimes/lifetimes-practice/Cargo.toml \
+            ch06-traits/macros/Cargo.toml \
+            ch12-building-an-api/reviews/Cargo.toml
+          do
+            echo "::group::$manifest"
+            cargo test --manifest-path "$manifest"
+            echo "::endgroup::"
+          done
+
+  wasm:
+    name: wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - name: Build shop-pricing for wasm
+        run: cargo build --manifest-path ch13-wasm/shop-pricing/Cargo.toml --target wasm32-unknown-unknown
+      - name: Build shop-front for wasm
+        run: cargo build --manifest-path ch13-wasm/shop-front/Cargo.toml --target wasm32-unknown-unknown
+      - name: Native unit tests
+        run: cargo test --manifest-path ch13-wasm/shop-pricing/Cargo.toml
