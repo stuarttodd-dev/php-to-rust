@@ -1,0 +1,13 @@
+[workspace]
+
+[package]
+name = "lifetimes-practice"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "lifetimes-practice"
+path = "src/main.rs"

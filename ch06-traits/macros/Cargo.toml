@@ -1,0 +1,16 @@
+[workspace]
+
+[package]
+name = "learn-macros"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+shop = { path = "../../ch05-error-handling/shop" }
+
+[[bin]]
+name = "learn-macros"
+path = "src/main.rs"
