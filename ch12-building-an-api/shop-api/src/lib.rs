@@ -4,7 +4,6 @@ use axum::extract::{Path, State};
 use axum::http::{HeaderValue, Method, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use axum::routing::{get, post};
-use discounts::{price_with_rules, rule_for};
 use serde::{Deserialize, Serialize};
 use sqlx::{PgPool, Postgres, Transaction};
 use tower_http::cors::CorsLayer;
@@ -183,7 +182,8 @@ async fn add_line(
         return Err(shop::BasketError::ZeroQuantity.into());
     }
     let product_id = i32::try_from(line.product_id).map_err(|_| AppError::MissingProduct)?;
-    let quantity = i32::try_from(line.quantity).map_err(|_| AppError::MissingProduct)?;
+    let quantity =
+        i32::try_from(line.quantity).map_err(|_| AppError::Basket(shop::BasketError::Overflow))?;
     let mut tx = pool.begin().await?;
     lock_basket(&mut tx, id).await?;
     load_product(&pool, product_id).await?;
@@ -237,7 +237,8 @@ async fn checkout(
         shop::Order::Open(_) => return Err(AppError::MissingBasket),
     };
     // Schema CHECK and non-negative domain totals keep this conversion in range.
-    let total_i32 = i32::try_from(total_cents).expect("total fits i32");
+    let total_i32 =
+        i32::try_from(total_cents).map_err(|_| AppError::Basket(shop::BasketError::Overflow))?;
     sqlx::query!("INSERT INTO orders (total_cents) VALUES ($1)", total_i32)
         .execute(&mut *tx)
         .await?;
@@ -256,17 +257,8 @@ async fn apply_discount(
     Path(id): Path<i32>,
     Json(body): Json<DiscountBody>,
 ) -> Result<(StatusCode, Json<Receipt>), AppError> {
-    // Reject unknown codes before touching the database.
-    if rule_for(&body.code).is_none() {
-        return Err(AppError::UnknownCode);
-    }
-    load_basket(&pool, id).await?;
-    let basket = load_lines(&pool, id).await?;
-    let catalog = load_catalog(&pool).await?;
-    // Build the box after the awaits. Box<dyn PriceRule> is not Send.
-    let rules = vec![rule_for(&body.code).expect("code checked above")];
-    let total = price_with_rules(&basket, &catalog, &rules)?;
-    Ok((StatusCode::OK, Json(Receipt { total_cents: total.0 })))
+    let _ = (pool, id, body.code);
+    todo!()
 }
 
 async fn lock_basket(tx: &mut Transaction<'_, Postgres>, id: i32) -> Result<(), AppError> {

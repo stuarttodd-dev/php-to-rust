@@ -6,4 +6,4 @@ Local crates for the Traits and generics chapter.
 |---|---|
 | `discounts/` | Exercise: Discount rules (starter; `solution/lib.rs` is the filled-in library) |
 
-`discounts` depends on `shop` by path (`../shop`).
+`discounts` depends on `shop` by path (`../../ch05-error-handling/shop`). There is no `shop` symlink in this chapter folder.

@@ -20,23 +20,44 @@ struct Cents {
     total_cents: u32,
 }
 
+#[derive(Deserialize)]
+struct ErrorBody {
+    error: String,
+}
+
 #[derive(Serialize)]
 struct DiscountBody {
     code: String,
 }
 
 async fn load_catalog() -> Result<(Vec<(String, u32)>, i32), String> {
-    let products: Vec<Product> = Request::get(&format!("{API}/products"))
+    let products_response = Request::get(&format!("{API}/products"))
         .send()
         .await
-        .map_err(|err| err.to_string())?
+        .map_err(|err| err.to_string())?;
+    if !products_response.ok() {
+        let body: ErrorBody = products_response
+            .json()
+            .await
+            .map_err(|err| err.to_string())?;
+        return Err(body.error);
+    }
+    let products: Vec<Product> = products_response
         .json()
         .await
         .map_err(|err| err.to_string())?;
-    let created: CreatedBasket = Request::post(&format!("{API}/baskets"))
+    let created_response = Request::post(&format!("{API}/baskets"))
         .send()
         .await
-        .map_err(|err| err.to_string())?
+        .map_err(|err| err.to_string())?;
+    if created_response.status() != 201 {
+        let body: ErrorBody = created_response
+            .json()
+            .await
+            .map_err(|err| err.to_string())?;
+        return Err(body.error);
+    }
+    let created: CreatedBasket = created_response
         .json()
         .await
         .map_err(|err| err.to_string())?;
@@ -100,11 +121,23 @@ fn Shop() -> impl IntoView {
                                         })
                                     {
                                         Ok(request) => match request.send().await {
-                                            Ok(response) => match response.json::<Cents>().await {
-                                                Ok(body) => {
-                                                    priced.set(format!("wasm {wasm_total}"));
-                                                    discounted.set(format!("discount {}", body.total_cents));
+                                            Ok(response) if response.ok() => {
+                                                match response.json::<Cents>().await {
+                                                    Ok(body) => {
+                                                        priced.set(format!("wasm {wasm_total}"));
+                                                        discounted.set(format!(
+                                                            "discount {}",
+                                                            body.total_cents
+                                                        ));
+                                                    }
+                                                    Err(err) => page_error.set(err.to_string()),
                                                 }
+                                            }
+                                            Ok(response) => match response
+                                                .json::<ErrorBody>()
+                                                .await
+                                            {
+                                                Ok(body) => page_error.set(body.error),
                                                 Err(err) => page_error.set(err.to_string()),
                                             },
                                             Err(err) => page_error.set(err.to_string()),
@@ -120,8 +153,16 @@ fn Shop() -> impl IntoView {
                                         .send()
                                         .await
                                     {
-                                        Ok(response) => match response.json::<Cents>().await {
-                                            Ok(body) => paid.set(format!("checkout {}", body.total_cents)),
+                                        Ok(response) if response.ok() => {
+                                            match response.json::<Cents>().await {
+                                                Ok(body) => {
+                                                    paid.set(format!("checkout {}", body.total_cents))
+                                                }
+                                                Err(err) => page_error.set(err.to_string()),
+                                            }
+                                        }
+                                        Ok(response) => match response.json::<ErrorBody>().await {
+                                            Ok(body) => page_error.set(body.error),
                                             Err(err) => page_error.set(err.to_string()),
                                         },
                                         Err(err) => page_error.set(err.to_string()),

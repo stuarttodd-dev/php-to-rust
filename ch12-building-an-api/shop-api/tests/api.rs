@@ -228,3 +228,48 @@ async fn known_code_on_a_missing_basket_is_404(pool: sqlx::PgPool) {
         br#"{"error":"basket not found"}"#.to_vec()
     );
 }
+
+#[sqlx::test(migrations = "./migrations")]
+async fn checkout_total_that_overflows_i32_is_422(pool: sqlx::PgPool) {
+    let app = shop_api::app(pool);
+    let created = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/baskets")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(created.status(), StatusCode::CREATED);
+    let added = app
+        .clone()
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/baskets/1/lines")
+                .header("content-type", "application/json")
+                .body(Body::from(r#"{"product_id":2,"qty":1000000}"#))
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(added.status(), StatusCode::CREATED);
+    let checked_out = app
+        .oneshot(
+            Request::builder()
+                .method("POST")
+                .uri("/baskets/1/checkout")
+                .body(Body::empty())
+                .unwrap(),
+        )
+        .await
+        .unwrap();
+    assert_eq!(checked_out.status(), StatusCode::UNPROCESSABLE_ENTITY);
+    assert_eq!(
+        bytes(checked_out).await,
+        br#"{"error":"line total overflowed"}"#.to_vec()
+    );
+}

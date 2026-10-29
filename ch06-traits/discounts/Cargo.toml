@@ -4,4 +4,4 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-shop = { path = "../shop" }
+shop = { path = "../../ch05-error-handling/shop" }
