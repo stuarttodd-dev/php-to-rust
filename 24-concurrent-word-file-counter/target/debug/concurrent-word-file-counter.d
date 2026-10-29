@@ -1,1 +1,0 @@
-/Users/stuart/PhpstormProjects/php-to-rust/24-concurrent-word-file-counter/target/debug/concurrent-word-file-counter: /Users/stuart/PhpstormProjects/php-to-rust/24-concurrent-word-file-counter/src/main.rs

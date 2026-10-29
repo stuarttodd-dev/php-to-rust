@@ -1,1 +1,0 @@
-/Users/stuart/PhpstormProjects/php-to-rust/26-docker-rust-with-postgresql/target/debug/docker-rust-with-postgresql: /Users/stuart/PhpstormProjects/php-to-rust/26-docker-rust-with-postgresql/src/main.rs
