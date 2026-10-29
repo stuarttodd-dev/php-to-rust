@@ -6,7 +6,7 @@ struct ForeignPaySdk;
 
 impl ForeignPaySdk {
     fn submit_charge(&self, amount: &str, currency_code: u16) {
-        println!("ForeignPay: {} (code {})", amount, currency_code);
+        println!("ForeignPay: {amount} (code {currency_code})");
     }
 }
 
@@ -25,7 +25,7 @@ struct ForeignPayAdapter {
 impl PaymentGateway for ForeignPayAdapter {
     fn charge_cents(&self, amount_cents: u64, currency: &str) {
         let major = amount_cents as f64 / 100.0;
-        let amount = format!("{:.2}", major);
+        let amount = format!("{major:.2}");
         let code = iso_4217_numeric(currency);
         self.inner.submit_charge(&amount, code);
     }

@@ -16,7 +16,8 @@ struct Brackets {
 
 impl Message for Brackets {
     fn render(&self) -> String {
-        format!("[{}]", self.inner.render())
+        let inner = self.inner.render();
+        format!("[{inner}]")
     }
 }
 
@@ -26,7 +27,8 @@ struct Exclaim {
 
 impl Message for Exclaim {
     fn render(&self) -> String {
-        format!("{}!", self.inner.render())
+        let inner = self.inner.render();
+        format!("{inner}!")
     }
 }
 

@@ -1,9 +1,11 @@
 struct DraftPost {
     content: String,
 }
+
 struct PendingReviewPost {
     content: String,
 }
+
 struct PublishedPost {
     content: String,
 }
@@ -18,6 +20,12 @@ pub struct Post {
     state: PostState,
 }
 
+impl Default for Post {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Post {
     pub fn new() -> Self {
         Post {
@@ -26,11 +34,13 @@ impl Post {
             }),
         }
     }
+
     pub fn add_text(&mut self, text: &str) {
         if let PostState::Draft(ref mut draft) = self.state {
             draft.content.push_str(text);
         }
     }
+
     pub fn request_review(&mut self) {
         let ph = PostState::Draft(DraftPost {
             content: String::new(),
@@ -41,6 +51,7 @@ impl Post {
             });
         }
     }
+
     pub fn approve(&mut self) {
         let ph = PostState::Draft(DraftPost {
             content: String::new(),
@@ -51,6 +62,7 @@ impl Post {
             });
         }
     }
+
     pub fn content(&self) -> &str {
         match &self.state {
             PostState::Draft(s) => &s.content,

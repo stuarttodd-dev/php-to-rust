@@ -8,7 +8,7 @@ struct LoggingLayer {
 
 impl Handler for LoggingLayer {
     fn handle(&self, req: &str) -> Option<String> {
-        println!("[log] incoming: {}", req);
+        println!("[log] incoming: {req}");
         self.next.handle(req)
     }
 }
@@ -28,9 +28,10 @@ impl Handler for AuthLayer {
 }
 
 struct Business;
+
 impl Handler for Business {
     fn handle(&self, req: &str) -> Option<String> {
-        Some(format!("handled: {}", req))
+        Some(format!("handled: {req}"))
     }
 }
 

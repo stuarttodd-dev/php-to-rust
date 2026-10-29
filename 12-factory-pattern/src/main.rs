@@ -10,6 +10,7 @@ impl Animal for Dog {
         "woof"
     }
 }
+
 impl Animal for Cat {
     fn speak(&self) -> &'static str {
         "meow"

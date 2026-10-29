@@ -13,16 +13,23 @@ pub struct WindowConfigBuilder {
 
 impl WindowConfigBuilder {
     pub fn new(title: String) -> Self {
-        WindowConfigBuilder { title, width: None, height: None }
+        WindowConfigBuilder {
+            title,
+            width: None,
+            height: None,
+        }
     }
+
     pub fn width(mut self, width: u32) -> Self {
         self.width = Some(width);
         self
     }
+
     pub fn height(mut self, height: u32) -> Self {
         self.height = Some(height);
         self
     }
+
     pub fn build(self) -> WindowConfig {
         WindowConfig {
             title: self.title,
@@ -37,7 +44,9 @@ fn main() {
         .width(1024)
         .height(768)
         .build();
-    // Read fields so the compiler does not warn (Debug alone does not count as a "read" for dead_code).
-    println!("Window '{}' is {}×{}", cfg.title, cfg.width, cfg.height);
-    println!("{:?}", cfg);
+    let title = &cfg.title;
+    let width = cfg.width;
+    let height = cfg.height;
+    println!("Window '{title}' is {width}×{height}");
+    println!("{cfg:?}");
 }
