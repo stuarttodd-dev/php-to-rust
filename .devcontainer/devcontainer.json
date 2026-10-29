@@ -1,0 +1,24 @@
+{
+  "name": "php-to-rust",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [8090, 8091, 5432],
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb"
+      ],
+      "settings": {
+        "rust-analyzer.check.command": "clippy"
+      }
+    }
+  },
+  "remoteEnv": {
+    "DATABASE_URL": "postgres://shop:shop@postgres:5432/shop",
+    "SQLX_OFFLINE": "true"
+  }
+}
