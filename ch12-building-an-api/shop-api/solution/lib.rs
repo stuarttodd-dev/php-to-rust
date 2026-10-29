@@ -105,7 +105,11 @@ struct LineRow {
 
 pub fn app(pool: PgPool) -> Router {
     let cors = CorsLayer::new()
-        .allow_origin("http://127.0.0.1:8091".parse::<HeaderValue>().expect("origin"))
+        .allow_origin(
+            "http://127.0.0.1:8091"
+                .parse::<HeaderValue>()
+                .expect("origin"),
+        )
         .allow_methods([Method::GET, Method::POST])
         .allow_headers([header::CONTENT_TYPE]);
     Router::new()
@@ -268,7 +272,12 @@ async fn apply_discount(
     // Build the box after the awaits. Box<dyn PriceRule> is not Send.
     let rules = vec![rule_for(&body.code).expect("code checked above")];
     let total = price_with_rules(&basket, &catalog, &rules)?;
-    Ok((StatusCode::OK, Json(Receipt { total_cents: total.0 })))
+    Ok((
+        StatusCode::OK,
+        Json(Receipt {
+            total_cents: total.0,
+        }),
+    ))
 }
 
 async fn lock_basket(tx: &mut Transaction<'_, Postgres>, id: i32) -> Result<(), AppError> {

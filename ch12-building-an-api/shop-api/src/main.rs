@@ -26,10 +26,7 @@ async fn main() {
     let pool = sqlx::PgPool::connect(&config.database_url)
         .await
         .expect("connect to database");
-    sqlx::migrate!()
-        .run(&pool)
-        .await
-        .expect("run migrations");
+    sqlx::migrate!().run(&pool).await.expect("run migrations");
     let listener = tokio::net::TcpListener::bind(&config.bind)
         .await
         .expect("bind listener");

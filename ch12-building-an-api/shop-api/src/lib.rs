@@ -104,7 +104,11 @@ struct LineRow {
 
 pub fn app(pool: PgPool) -> Router {
     let cors = CorsLayer::new()
-        .allow_origin("http://127.0.0.1:8091".parse::<HeaderValue>().expect("origin"))
+        .allow_origin(
+            "http://127.0.0.1:8091"
+                .parse::<HeaderValue>()
+                .expect("origin"),
+        )
         .allow_methods([Method::GET, Method::POST])
         .allow_headers([header::CONTENT_TYPE]);
     Router::new()
