@@ -1,0 +1,32 @@
+name: shop-api
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shop
+      POSTGRES_PASSWORD: shop
+      POSTGRES_DB: shop
+    volumes:
+      - shop-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shop -d shop"]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+  api:
+    build:
+      context: ..
+      dockerfile: shop-api/Dockerfile
+    environment:
+      DATABASE_URL: postgres://shop:shop@postgres/shop
+      BIND: 0.0.0.0:8090
+      RUST_LOG: info
+    ports:
+      - "127.0.0.1:8090:8090"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  shop-data:

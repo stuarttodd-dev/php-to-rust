@@ -1,0 +1,21 @@
+$ docker compose up --build -d
+ Image shop-api-api Building
+ Image shop-api-api Built
+ Network shop-api_default Creating
+ Network shop-api_default Created
+ Volume shop-api_shop-data Creating
+ Volume shop-api_shop-data Created
+ Container shop-api-postgres-1 Creating
+ Container shop-api-postgres-1 Created
+ Container shop-api-api-1 Creating
+ Container shop-api-api-1 Created
+ Container shop-api-postgres-1 Starting
+ Container shop-api-postgres-1 Started
+ Container shop-api-postgres-1 Waiting
+ Container shop-api-postgres-1 Healthy
+ Container shop-api-api-1 Starting
+ Container shop-api-api-1 Started
+$ curl -s http://127.0.0.1:8090/health
+ok
+$ curl -s http://127.0.0.1:8090/products/1
+{"id":1,"title":"mug","price_cents":1000}

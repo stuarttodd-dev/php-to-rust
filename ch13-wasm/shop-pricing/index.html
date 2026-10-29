@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mug total</title>
+</head>
+<body>
+<script type="module">
+import init, { mug_total } from "./pkg/shop_pricing.js";
+await init();
+document.body.textContent = String(mug_total("SAVE10", 1));
+</script>
+</body>
+</html>

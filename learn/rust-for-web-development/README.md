@@ -1,5 +1,8 @@
 # Rust for web development (LMS copy)
 
-Section sources can live under [`../sections/rust-for-web-development/`](../sections/rust-for-web-development/) when added.
+The WebAssembly chapter examples live under [`ch13-wasm/`](../../ch13-wasm/README.md):
 
-See also [28-shop-ui](../../28-shop-ui/README.md) for a full Dioxus + API setup in this repo.
+- [`ch13-wasm/shop-pricing`](../../ch13-wasm/shop-pricing) — shared `mug_total` via `wasm-pack`
+- [`ch13-wasm/shop-front`](../../ch13-wasm/shop-front) — Leptos 0.8 CSR + Trunk
+
+[`28-shop-ui`](../../28-shop-ui/README.md) is an **alternative framework** example (Dioxus 0.7). The lessons teach Leptos, not Dioxus.

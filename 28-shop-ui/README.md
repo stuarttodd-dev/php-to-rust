@@ -2,7 +2,7 @@
 
 ![php-to-rust logo](../images/php-to-rust.png)
 
-Dioxus **0.7** web app: product catalog, product detail, basket (local storage + [`27-shop-api`](../27-shop-api/README.md) HTTP). Uses **`dx serve`** for the dev server (WASM in the browser).
+**Alternative framework example.** The WebAssembly chapter teaches Leptos 0.8; see [`ch13-wasm`](../ch13-wasm/README.md) for the lesson crates. This tree is a Dioxus **0.7** web app: product catalog, product detail, basket (local storage + [`27-shop-api`](../27-shop-api/README.md) HTTP). Uses **`dx serve`** for the dev server (WASM in the browser).
 
 ## Prerequisites
 

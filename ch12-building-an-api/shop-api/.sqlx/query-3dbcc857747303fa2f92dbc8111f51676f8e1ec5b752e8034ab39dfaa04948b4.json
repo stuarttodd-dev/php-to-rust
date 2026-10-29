@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "DELETE FROM basket_lines WHERE basket_id = $1",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "3dbcc857747303fa2f92dbc8111f51676f8e1ec5b752e8034ab39dfaa04948b4"
+}

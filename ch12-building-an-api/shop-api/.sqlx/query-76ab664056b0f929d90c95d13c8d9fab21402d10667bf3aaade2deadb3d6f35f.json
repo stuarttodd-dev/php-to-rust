@@ -1,0 +1,16 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO basket_lines (basket_id, product_id, quantity) VALUES ($1, $2, $3)\n         ON CONFLICT (basket_id, product_id)\n         DO UPDATE SET quantity = basket_lines.quantity + EXCLUDED.quantity",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Int4",
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "76ab664056b0f929d90c95d13c8d9fab21402d10667bf3aaade2deadb3d6f35f"
+}
