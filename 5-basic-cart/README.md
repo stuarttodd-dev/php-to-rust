@@ -1,15 +1,23 @@
-# 5 - Basic Cart
+# 5 - Basic cart
 
 ![php-to-rust logo](../images/php-to-rust.png)
 
-This example implements a simple cart type with add/len/print, then demonstrates modifying items and checking out, covering basic struct methods and mutability.
+Four functions on a `Vec<String>`: add, total length, longest borrow, and remove. Matches the Ownership exercise in PHP to Rust.
 
 ## Run
 
 From this folder:
 
 ```bash
-cargo run
+cargo test
+cargo run -q
 ```
 
-Expected output shows item count, item list, prefixed items, and checkout message.
+Expected `cargo run` output:
+
+```text
+ciabatta
+21
+Some("espresso")
+["ciabatta", "pesto"]
+```
