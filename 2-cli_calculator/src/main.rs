@@ -1,48 +1,77 @@
-use std::io;
+use std::io::{self, Write};
 
-fn main() {
-    println!("Welcome to the Rust CLI Calculator!");
-
-    let num1 = get_number("Enter the first number: ");
-    let num2 = get_number("Enter the second number: ");
-
-    println!("Enter an operation (+, -, *, /):");
-    let mut operation = String::new();
-    io::stdin().read_line(&mut operation).expect("Failed to read input");
-    let operation = operation.trim();
-
-    let result = match operation {
-        "+" => Some(num1 + num2),
-        "-" => Some(num1 - num2),
-        "*" => Some(num1 * num2),
-        "/" => {
-            if num2 != 0.0 {
-                Some(num1 / num2)
-            } else {
-                println!("Error: Division by zero is not allowed.");
-                None
-            }
-        }
-        _ => {
-            println!("Invalid operation. Please enter +, -, *, or /.");
-            None
-        }
-    };
-
-    if let Some(res) = result {
-        println!("Result: {}", res);
+/// Preview: `Option` is a value that is either `Some(number)` or `None`.
+/// The Option chapter covers it properly. Integers divide by truncation: `7 / 2` is `3`.
+fn apply(operation: &str, left: i32, right: i32) -> Option<i32> {
+    match operation {
+        "+" => left.checked_add(right),
+        "-" => left.checked_sub(right),
+        "*" => left.checked_mul(right),
+        "/" => left.checked_div(right),
+        _ => None,
     }
 }
 
-fn get_number(prompt: &str) -> f64 {
-    loop {
-        println!("{}", prompt);
-        let mut input = String::new();
-        io::stdin().read_line(&mut input).expect("Failed to read input");
+fn prompt(label: &str) -> Option<String> {
+    print!("{label}");
+    io::stdout().flush().expect("stdout should flush");
+    let mut line = String::new();
+    let bytes = io::stdin()
+        .read_line(&mut line)
+        .expect("stdin should be readable");
+    if bytes == 0 {
+        return None;
+    }
+    Some(line.trim().to_string())
+}
 
-        match input.trim().parse::<f64>() {
-            Ok(num) => return num,
-            Err(_) => println!("Invalid number. Please enter a valid numeric value."),
-        }
+fn main() {
+    println!("Welcome to the Rust CLI calculator.");
+    let Some(raw_left) = prompt("First number: ") else {
+        return;
+    };
+    let Some(raw_right) = prompt("Second number: ") else {
+        return;
+    };
+    let Some(operation) = prompt("Operation (+, -, *, /): ") else {
+        return;
+    };
+    let Ok(left) = raw_left.parse::<i32>() else {
+        println!("The first value should be a whole number.");
+        return;
+    };
+    let Ok(right) = raw_right.parse::<i32>() else {
+        println!("The second value should be a whole number.");
+        return;
+    };
+    if let Some(result) = apply(&operation, left, right) {
+        println!("Result: {result}");
+    } else {
+        println!("Use + - * or /, and do not overflow or divide by zero.");
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::apply;
+
+    #[test]
+    fn adds() {
+        assert_eq!(apply("+", 10, 4), Some(14));
+    }
+
+    #[test]
+    fn integer_division_truncates() {
+        assert_eq!(apply("/", 7, 2), Some(3));
+    }
+
+    #[test]
+    fn rejects_divide_by_zero() {
+        assert_eq!(apply("/", 7, 0), None);
+    }
+
+    #[test]
+    fn overflow_is_none() {
+        assert_eq!(apply("+", i32::MAX, 1), None);
     }
 }

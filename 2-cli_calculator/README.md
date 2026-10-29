@@ -1,25 +1,10 @@
-# 2 - CLI Calculator
+# CLI calculator
 
-![php-to-rust logo](../images/php-to-rust.png)
+Matches the "A CLI calculator" lesson: `match` with `checked_*`, stop at EOF (`Ok(0)` → `None`), and four unit tests.
 
-This folder contains a Rust CLI calculator and a PHP comparison implementation, demonstrating basic input/output and arithmetic operations in both languages.
-
-## Rust
-
-From `/2-cli_calculator`:
-
-```bash
+```console
+cargo test
 cargo run
 ```
 
-Then follow prompts to enter two numbers and an operation (`+`, `-`, `*`, `/`).
-
-## PHP comparison
-
-From `/2-cli_calculator/php-comparison`:
-
-```bash
-php cli_calculator.php
-```
-
-Use the same prompts for input.
+The Playground has no stdin — use **Test** there, or `cargo test` locally.
