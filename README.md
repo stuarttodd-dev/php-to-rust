@@ -1,43 +1,59 @@
 # php-to-rust
 
-![php-to-rust logo](./images/php-to-rust.png)
+[![CI](https://github.com/stuarttodd-dev/php-to-rust/actions/workflows/ci.yml/badge.svg)](https://github.com/stuarttodd-dev/php-to-rust/actions/workflows/ci.yml)
 
-PHP to Rust Code Examples
+Companion crates for the [PHP to Rust](https://php2rust.dev) course: small, runnable examples that match the lessons on ownership, traits, concurrency, Axum APIs, and WebAssembly.
 
-This is a PHP-to-Rust course repository with side-by-side examples and small hands-on projects.
+## Setup
 
-## Examples
+**Local:** install [rustup](https://rustup.rs), then:
 
-- [1-hello-world](1-hello-world/README.md)
-- [2-cli_calculator](2-cli_calculator/README.md)
-- [3-user-input-classifier](3-user-input-classifier/README.md)
-- [4-laravel-collection-clone](4-laravel-collection-clone/README.md)
-- [ch04-structs-enums-modules/shop](ch04-structs-enums-modules/shop/README.md) — Shop domain from Structs, enums and modules (`Money`, `Product`, `Basket`, lib + binary).
-- [ch06-traits/discounts](ch06-traits/discounts/) — Exercise: discount rules (`PriceRule`, percent/fixed stacking; starter + `solution/lib.rs`).
-- [5-basic-cart](5-basic-cart/README.md)
-- [6-tuple-exercises](6-tuple-exercises/README.md)
-- [7-organised-tuple-exercises](7-organised-tuple-exercises/README.md)
-- [8-error-handling-capstone](8-error-handling-capstone/README.md)
-- [9-universal-media-player](9-universal-media-player/README.md)
-- [10-decorator-pattern](10-decorator-pattern/README.md)
-- [11-builder-pattern](11-builder-pattern/README.md)
-- [12-factory-pattern](12-factory-pattern/README.md)
-- [13-adapter-pattern](13-adapter-pattern/README.md)
-- [14-strategy-pattern](14-strategy-pattern/README.md)
-- [15-observer-pattern](15-observer-pattern/README.md)
-- [16-state-pattern](16-state-pattern/README.md)
-- [17-CoR-pattern](17-CoR-pattern/README.md)
-- [18-functional-exercise](18-functional-exercise/README.md)
-- [19-testing-practice](19-testing-practice/README.md)
-- [20-shared-documentviews](20-shared-documentviews/README.md)
-- [21-http-server](21-http-server/README.md)
-- [22-cmd-file-operations](22-cmd-file-operations/README.md)
-- [23-merge-line-counts](23-merge-line-counts/README.md)
-- [24-concurrent-word-file-counter](24-concurrent-word-file-counter/README.md)
-- [25-docker-setup](25-docker-setup/README.md)
-- [26-docker-rust-with-postgresql](26-docker-rust-with-postgresql/README.md)
-- [27-shop-api](27-shop-api/README.md) — Axum + SQLx + PostgreSQL (catalog, baskets, validation, JSON resources). Includes every route, `curl` examples, and how to run Docker Compose.
-- [28-shop-ui](28-shop-ui/README.md) — Dioxus 0.7 WASM shop (catalog, product, basket) + [`dx serve`](https://dioxuslabs.com/learn/0.7/getting_started); needs [`27-shop-api`](27-shop-api/README.md) running. **Setup:** [28-shop-ui/README.md](28-shop-ui/README.md).
-- [29-inventory](29-inventory/README.md) — CLI directory inventory: `Path` / `PathBuf`, recursive walk, summary by file extension + `cargo test` for pure logic.
-- [learn/rust-for-web-development](learn/rust-for-web-development/README.md) — LMS-ready copy: **three** WASM UI options, then **one** simple front-end build lesson.
-- [learn/rust-for-systems-development](learn/rust-for-systems-development/README.md) — LMS-ready copy: paths, `PathBuf`, and related systems topics ([`PathBuf` / `Path` lesson](learn/sections/rust-for-systems-development/systems-pathbuf-and-path.md)).
+```bash
+git clone https://github.com/stuarttodd-dev/php-to-rust.git
+cd php-to-rust
+rustup target add wasm32-unknown-unknown   # for ch13
+export DATABASE_URL=postgres://shop:shop@127.0.0.1:54329/shop  # for shop-api
+```
+
+**Devcontainer / Codespaces:** open this repo in a Codespace (or VS Code Dev Containers). Postgres 16, wasm32, trunk, wasm-pack, and sqlx-cli are installed; ports 8090 (API) and 8091 (Trunk) are forwarded.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=stuarttodd-dev%2Fphp-to-rust)
+
+## Lesson → crate map
+
+| Chapter | Lesson | Folder | Command |
+|---|---|---|---|
+| Getting started | Hello Rust | `1-hello-world` | `rustc hello.rs && ./hello` |
+| Getting started | CLI calculator | `2-cli_calculator` | `cargo run` |
+| Rust basics | Input classifier | `3-user-input-classifier` | `cargo test` |
+| Ownership | Ownership exercise | `5-basic-cart` | `cargo test` |
+| Structs | Shop domain | `ch04-structs-enums-modules/shop` | `cargo test` |
+| Lifetimes (depth) | Lifetimes in practice | `ch04-lifetimes/lifetimes-practice` | `cargo test` |
+| Error handling | Shop / orders | `ch05-error-handling/*` | `cargo test --manifest-path …` |
+| Traits | Discount rules | `ch06-traits/discounts` | `cargo test` |
+| Macros (depth) | Declarative macros | `ch06-traits/macros` | `cargo test` |
+| Closures | Collection exercise | `4-laravel-collection-clone` | `cargo test` |
+| Testing | Find the bugs | `ch08-testing/find-the-bugs` | `cargo test` |
+| Smart pointers | Category tree | `ch09-smart-pointers/category-tree` | `cargo test` |
+| CLI | Shop CLI | `ch10-cli/shop-cli` | `cargo test` |
+| CLI | Paths / inventory | `29-inventory` | `cargo test` |
+| Concurrency | Order pipeline | `ch11-concurrency/order-pipeline` | `cargo test` |
+| Concurrency | Async in depth | `ch11-concurrency/async-depth` | `cargo test` |
+| API | shop-api | `ch12-building-an-api/shop-api` | `cargo test -p shop-api` (from `ch12-building-an-api`) |
+| API | Reviews capstone | `ch12-building-an-api/reviews` | `cargo test` |
+| WASM | shop-pricing / shop-front | `ch13-wasm/*` | `cargo test` / `trunk serve` |
+
+Historical numbered folders that are no longer linked from the course live under [`archive/`](archive/README.md).
+
+## How CI checks the course
+
+GitHub Actions (`.github/workflows/ci.yml`) runs:
+
+1. **crates** — fmt/clippy/test for the ch12 workspace (with Postgres 16 + sqlx migrate) and `cargo test --manifest-path` for other chapter crates.
+2. **wasm** — `wasm32-unknown-unknown` builds for `shop-pricing` and `shop-front`, plus native tests for shop-pricing.
+
+The LMS repo separately runs a site build and `scripts/check-snippets.py` over lesson fences.
+
+## License
+
+See repository license file (MIT unless noted otherwise in individual crates).
